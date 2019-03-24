@@ -1,0 +1,26 @@
+---
+# tasks file for ssh
+- name: Add a new user
+  user:
+    name: "{{ sshd_provision_user }}"
+  become: yes
+
+- name: Add user to the sudoers
+  copy:
+    dest: "/etc/sudoers.d/{{ sshd_provision_user }}"
+    content: "{{ sshd_provision_user }}  ALL=(ALL)  NOPASSWD: ALL"
+  become: yes
+
+- name: Deploy SSH Key
+  authorized_key:
+    user: "{{ sshd_provision_user }}"
+    key: "{{ lookup('file', sshd_provision_user_authorized_key) }}"
+    state: present
+  become: yes
+
+- name: Apply sshd_config
+  template:
+    src: sshd_config.j2
+    dest: /etc/ssh/sshd_config
+  notify: restart ssh
+  become: yes
