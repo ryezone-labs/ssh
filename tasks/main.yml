@@ -4,12 +4,14 @@
   user:
     name: "{{ sshd_provision_user }}"
   become: yes
+  when: build is false
 
 - name: Add user to the sudoers
   copy:
     dest: "/etc/sudoers.d/{{ sshd_provision_user }}"
     content: "{{ sshd_provision_user }}  ALL=(ALL)  NOPASSWD: ALL"
   become: yes
+  when: build is false
 
 - name: Deploy SSH Key
   authorized_key:
@@ -17,6 +19,7 @@
     key: "{{ lookup('file', sshd_provision_user_authorized_key) }}"
     state: present
   become: yes
+  when: build is false
 
 - name: Apply sshd_config
   template:

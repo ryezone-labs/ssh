@@ -5,3 +5,5 @@ ryezone_labs_public_key_path: /opt/.ssh/id_rsa.pub
 
 sshd_provision_user: "{{ ryezone_labs_provision_user }}"
 sshd_provision_user_authorized_key: "{{ ryezone_labs_public_key_path }}"
+
+build: false
