@@ -27,3 +27,13 @@
     dest: /etc/ssh/sshd_config
   notify: restart ssh
   become: yes
+
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    state: present
+    insertafter: EOF
+    line: "{{ item }}"
+    when: build is true
+    with_items:
+      - "Match user vagrant"
+      - "  PasswordAuthentication yes"
