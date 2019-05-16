@@ -4,14 +4,14 @@
   user:
     name: "{{ sshd_provision_user }}"
   become: yes
-  when: build is false
+  when: not build
 
 - name: Add user to the sudoers
   copy:
     dest: "/etc/sudoers.d/{{ sshd_provision_user }}"
     content: "{{ sshd_provision_user }}  ALL=(ALL)  NOPASSWD: ALL"
   become: yes
-  when: build is false
+  when: not build
 
 - name: Deploy SSH Key
   authorized_key:
@@ -19,7 +19,7 @@
     key: "{{ lookup('file', sshd_provision_user_authorized_key) }}"
     state: present
   become: yes
-  when: build is false
+  when: not build
 
 - name: Apply sshd_config
   template:
@@ -34,7 +34,7 @@
     state: present
     insertafter: EOF
     line: "{{ item }}"
-    when: build is true
+    when: build
     with_items:
       - "Match user vagrant"
       - "  PasswordAuthentication yes"
