@@ -34,7 +34,8 @@
     state: present
     insertafter: EOF
     line: "{{ item }}"
-    when: build
+  become: yes
+  when: build
   loop:
     - "Match user vagrant"
     - "  PasswordAuthentication yes"
