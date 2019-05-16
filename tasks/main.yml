@@ -28,6 +28,7 @@
   notify: restart ssh
   become: yes
 
+- name: Add build exception
   lineinfile:
     path: /etc/ssh/sshd_config
     state: present
