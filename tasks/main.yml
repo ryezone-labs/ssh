@@ -35,6 +35,6 @@
     insertafter: EOF
     line: "{{ item }}"
     when: build
-    with_items:
+    loop:
       - "Match user vagrant"
       - "  PasswordAuthentication yes"
