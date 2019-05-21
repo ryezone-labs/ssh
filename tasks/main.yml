@@ -35,7 +35,7 @@
     insertafter: EOF
     line: "{{ item }}"
   become: yes
-  when: build
+  when: build | bool
   loop:
     - "Match user vagrant"
     - "  PasswordAuthentication yes"
